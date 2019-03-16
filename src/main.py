@@ -35,6 +35,15 @@ def train_model(X_train, Y_train):
     return regressor
 
 
+# PREDICTION
+def predict_price(regressor, datestr):
+    date = int(datestr.replace("-", ""))
+    date = [date]
+    date = np.reshape(date, (len(date), 1))
+    predicted_price =regressor.predict(date)
+    print("Predicted Price on {} is {}".format(datestr, predicted_price))
+
+# VISUALIZATION
 def visualize(regressor, dates, prices):
     plt.scatter(dates, prices, color='yellow', label= 'Actual Price') #plotting the initial datapoints
     plt.plot(dates, regressor.predict(dates), color='red', linewidth=3, label = 'Predicted Price') #plotting the line made by linear regression
@@ -44,17 +53,8 @@ def visualize(regressor, dates, prices):
     plt.show()
 
 
-# PREDICTION
-def predict_price(regressor, datestr):
-    date = int(datestr.replace("-", ""))
-    date = [date]
-    date = np.reshape(date, (len(date), 1))
-    predicted_price =regressor.predict(date)
-    print("Predicted Price on {} is {}".format(datestr, predicted_price))
-
-
 def main():
-    # Get Data of ICICBank Stock Prices from Yahoo Finance as CSV FILE for 10 Mar '18 to 10 Mar '19
+    # Get Data of ICICBank Stock Prices from Yahoo Finance as CSV FILE
     input_file_path = "data/raw/ICICIBANK.BO.csv"
     forecast_feature = "Open"   # choosing Open price column to forecast
     test_size = 0.2
@@ -68,6 +68,6 @@ def main():
     # visualize results with TEST dataset
     visualize(regressor, X_test, Y_test)
 
-    predict_price(regressor, "2019-02-12")
+    predict_price(regressor, "2019-01-12")
 
 main()
